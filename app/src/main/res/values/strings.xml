@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">ChopsSticks</string>
+    <string name="version">Version</string>
+    <string name="load">Loadding...</string>
+    <string name="name">POWERED by YUH APPS</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="or">Or</string>
+    <string name="app_id">164016280843094</string>
+    <string name="LoginGG">Login with Google</string>
+    <string name="LoginFB">Login with Facebook</string>
+    <string name="gg_id">766416711491-mlo2nbi6cps24viujfvonm4tur63m1ii.apps.googleusercontent.com</string>
+    <string name="introduce">Discovery. Delivery. Reservation</string>
+    <string name="place">Places</string>
+    <string name="food">Food</string>
+    <string name="moinhat">Latest</string>
+    <string name="danhmuc">Category</string>
+    <string name="khuvuc">HCM city</string>
+    <string name="nearby">Nearby</string>
+    <string name="order">Order Delivery</string>
+    <string name="review">Reviews</string>
+    <string name="gameandfun">Game and Fun</string>
+    <string name="blogs">Blogs</string>
+    <string name="topmember">Topmember</string>
+    <string name="orderfood">OrderFood</string>
+    <string name="forgotpassword">Forgot password</string>
+    <string name="signup">Sign up</string>
+    <string name="enterpass">Enter Password</string>
+    <string name="erro">please enter </string>
+    <string name="erroenterpass">Please enter password</string>
+    <string name="loginsuccess">Login success</string>
+    <string name="waiting">Waitting...</string>
+    <string name="photo">Photo</string>
+    <string name="checkin">Check - in</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

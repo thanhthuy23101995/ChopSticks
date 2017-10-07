@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:id="@+id/cardViewPlaces">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/bg_cycle"
+                android:gravity="center"
+                android:text="0"
+                android:id="@+id/txtRates"
+                android:textColor="@color/colorAccent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtNameRes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gogi house"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtAddress"
+                    android:text="175 Tây Sơn - Đống Đa - Hà Nội" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtRange"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="50dp"
+                android:text="6.6 km" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imgResPlaces"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/mapkoi" />
+
+        <Button
+            android:id="@+id/btnOderPlaces"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_button_order"
+            android:drawableTop="@drawable/ic_local_shipping_white_24dp"
+            android:text="@string/orderfood"
+            android:textAllCaps="false"
+            android:textColor="@color/colorAccent" />
+
+        <LinearLayout
+            android:id="@+id/liner_container1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgComment1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:src="@drawable/bg"
+                android:text="6.8"
+                android:textColor="@color/colorAccent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtTitleComment1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gogi house"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtComment1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="175 Tây Sơn - Đống Đa - Hà Nội" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtMark1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="6.6" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/liner_container2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgComment2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:src="@drawable/hinh5"
+                android:text="6.8"
+                android:textColor="@color/colorAccent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtTitleComment2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gogi house"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/txtComment2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="175 Tây Sơn - Đống Đa - Hà Nội" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtMark2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:text="6.6" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:drawableLeft="@drawable/ic_insert_comment_black_24dp"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="154"
+                android:id="@+id/txtSumComment"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:drawableLeft="@drawable/ic_photo_camera_black_24dp"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="500"
+                android:id="@+id/txtSumImagesComment"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
