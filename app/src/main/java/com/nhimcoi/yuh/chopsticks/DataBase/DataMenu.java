@@ -1,46 +1,35 @@
 package com.nhimcoi.yuh.chopsticks.DataBase;
 
-import android.util.Log;
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.nhimcoi.yuh.chopsticks.Adapter.AdapterMenu;
+import com.nhimcoi.yuh.chopsticks.Interface.MenuInterface;
+import com.nhimcoi.yuh.chopsticks.Model.MenuModel;
+
+import java.util.List;
 
 /**
  * Created by Nhím Còi on 10/7/2017.
  */
 
 public class DataMenu {
-    public void getListMenu(String maquanan)
-    {
-        DatabaseReference nodeMenuRes = FirebaseDatabase.getInstance().getReference().child("thucdonquanans").child(maquanan);
-        nodeMenuRes.addListenerForSingleValueEvent(new ValueEventListener() {
+    MenuModel menuModel;
+    public DataMenu() {
+       menuModel = new MenuModel();
+    }
+    public void getListMenu(final Context context, String id_res, final RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        MenuInterface menuInterface = new MenuInterface() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot value : dataSnapshot.getChildren())
-                {
-                    DatabaseReference nodeMenu = FirebaseDatabase.getInstance().getReference().child("thucdons").child(value.getKey());
-                    nodeMenu.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Log.e("check"," "+dataSnapshot);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
+            public void getListMenu_ID(List<MenuModel> menuModelList) {
+                AdapterMenu adapterMenu = new AdapterMenu(context,menuModelList);
+                recyclerView.setAdapter(adapterMenu);
+                adapterMenu.notifyDataSetChanged();
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        };
+        menuModel.getListMenu(id_res,menuInterface);
     }
 }

@@ -45,6 +45,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
     GoogleMap googleMap;
     MapFragment mapFragment;
     DataMenu dataMenu ;
+    RecyclerView recyclerViewMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         toolbar = (Toolbar) findViewById(R.id.toolbarLayout);
         recyclerViewComment = (RecyclerView)findViewById(R.id.recycComment);
         nestedScrollView = (NestedScrollView)findViewById(R.id.scrollViewDetail);
+        recyclerViewMenu = (RecyclerView)findViewById(R.id.recyc_menu);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -126,7 +128,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         recyclerViewComment.setAdapter(adapterRecycleComment);
         adapterRecycleComment.notifyDataSetChanged();
         nestedScrollView.smoothScrollTo(0,0);
-        dataMenu.getListMenu(restaurantModel.getId_quanan());
+        dataMenu.getListMenu(this,restaurantModel.getId_quanan(),recyclerViewMenu);
     }
     @Override
     protected void onStart() {

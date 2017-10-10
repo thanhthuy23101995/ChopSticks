@@ -255,7 +255,7 @@
 
                 </LinearLayout>
                 <include layout="@layout/layout_features_res" />
-
+                <include layout="@layout/layout_menu" />
                 <include layout="@layout/layout_comment" />
 
 
