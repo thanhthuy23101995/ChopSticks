@@ -2,15 +2,22 @@ package com.nhimcoi.yuh.chopsticks.View.Home;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.DecimalFormat;
+import android.icu.text.NumberFormat;
 import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -21,9 +28,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nhimcoi.yuh.chopsticks.Adapter.AdapterRecycleComment;
+import com.nhimcoi.yuh.chopsticks.DatMonUtils;
 import com.nhimcoi.yuh.chopsticks.DataBase.DataMenu;
 import com.nhimcoi.yuh.chopsticks.Model.RestaurantModel;
 import com.nhimcoi.yuh.chopsticks.R;
@@ -36,7 +46,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
 
     TextView txtName, txtAddress, txtStatus,
             txtTime, txtSumPhoTo, txtSumComent,
-            txtSumCheckIn, txtSumSave, txtTitleToolBar;
+            txtSumCheckIn, txtSumSave, txtTitleToolBar,txtPrices;
     ImageView imgImages;
     RestaurantModel restaurantModel;
     Toolbar toolbar;
@@ -46,13 +56,33 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
     MapFragment mapFragment;
     DataMenu dataMenu ;
     RecyclerView recyclerViewMenu;
+    LinearLayout linerFeatures;
+
+    /**
+     * Send notification
+     */
+    Button mBtDatMon;
+    private final String mUser = "Tran Thi Hong Tham";
+    private final String mStore = "GOGI House";
+
+    private final View.OnClickListener mDatMonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            DatabaseReference datMonReference = FirebaseDatabase.getInstance().getReference("zDatMonAn").push();
+            datMonReference.child("user").setValue(mUser);
+            datMonReference.child("store").setValue(mStore);
+            datMonReference.child("danhSachMonAn").setValue(DatMonUtils.getListMonAnDuocDat());
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_res);
         restaurantModel = getIntent().getParcelableExtra("res");
         txtName = (TextView) findViewById(R.id.txtNameResDetail);
-        txtAddress = (TextView) findViewById(R.id.txtAddressDetail);
+        txtAddress = (TextView) findViewById(R.id.txtAddressRes);
+        txtPrices = (TextView)findViewById(R.id.txtPrice);
         txtStatus = (TextView) findViewById(R.id.txtStatus);
         txtTime = (TextView) findViewById(R.id.txtOpen);
         txtSumPhoTo = (TextView) findViewById(R.id.txtSumPhoto);
@@ -65,7 +95,10 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         recyclerViewComment = (RecyclerView)findViewById(R.id.recycComment);
         nestedScrollView = (NestedScrollView)findViewById(R.id.scrollViewDetail);
         recyclerViewMenu = (RecyclerView)findViewById(R.id.recyc_menu);
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        linerFeatures = (LinearLayout)findViewById(R.id.linerFeatures);
+        mBtDatMon = findViewById(R.id.btnDatMon);
+        mBtDatMon.setOnClickListener(mDatMonListener);
+        mapFragment = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -80,6 +113,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         onBackPressed();
         return true;
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void DisplayResDetail()
     {
         Calendar calendar = Calendar.getInstance();
@@ -110,6 +144,17 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         txtSumPhoTo.setText(restaurantModel.getHinhanhquanans().size() + "");
         txtSumComent.setText(restaurantModel.getCommentModelList().size() + "");
         txtTime.setText(HoursOpen + " - " + HoursClose);
+        if(restaurantModel.getGiatoida() !=0 && restaurantModel.getGiatoithieu() !=0)
+        {
+            NumberFormat numberFormat = new DecimalFormat("###,###");
+            String giatoithieu = numberFormat.format(restaurantModel.getGiatoithieu())+ " đ ";
+            String giatoida = numberFormat.format(restaurantModel.getGiatoida())+ " đ ";
+            txtPrices.setText(giatoithieu + " - " +  giatoida);
+        }
+        else
+        {
+            txtPrices.setVisibility(View.INVISIBLE);
+        }
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("hinhanh")
                 .child(restaurantModel.getHinhanhquanans().get(0));
         final long ONE_MEGABYTE1 = 1024 * 1024;
@@ -147,8 +192,21 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         markerOptions.position(latLng);
         markerOptions.title(restaurantModel.getTenquanan());
         googleMap.addMarker(markerOptions);
-        googleMap.setMaxZoomPreference(10.0F);
+        googleMap.setMaxZoomPreference(20.0F);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng,14);
         googleMap.moveCamera(cameraUpdate);
+    }
+    public void DowndLoad(LinearLayout linearLayout)
+    {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("hinhanh")
+                .child(restaurantModel.getHinhanhquanans().get(0));
+        final long ONE_MEGABYTE1 = 1024 * 1024;
+        storageReference.getBytes(ONE_MEGABYTE1).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imgImages.setImageBitmap(bitmap);
+            }
+        });
     }
 }

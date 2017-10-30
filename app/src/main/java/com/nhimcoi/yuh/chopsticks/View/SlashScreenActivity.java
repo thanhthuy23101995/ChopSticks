@@ -18,6 +18,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.nhimcoi.yuh.chopsticks.R;
+import com.nhimcoi.yuh.chopsticks.View.Home.HomePageActivity;
 import com.nhimcoi.yuh.chopsticks.View.Login_Signup.LoginActivity;
 
 public class SlashScreenActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -52,7 +53,6 @@ public class SlashScreenActivity extends AppCompatActivity implements GoogleApiC
             // kết nối được rồ thì mở kết nối
             mgoogleApiClient.connect();
         }
-
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.nhimcoi.yuh.chopsticks.View.Login_Signup;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +64,6 @@ public class SignUpActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     Log.d("kiemtra", enterpass);
                 } else if (!enterpass.equals(password)) {
-
                     Toast.makeText(SignUpActivity.this, getString(R.string.erroenterpass), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 } else {
@@ -80,10 +80,13 @@ public class SignUpActivity extends AppCompatActivity {
                                 dataMembers.AddMemberModel(memberModel, useriD);
                                 Log.d("user","ok");
                                 Toast.makeText(SignUpActivity.this, getString(R.string.loginsuccess), Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(SignUpActivity.this,LoginActivity.class);
+                                startActivity(intent);
                             }
                         }
                     });
                 }
+
             }
         });
     }

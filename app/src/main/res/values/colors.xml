@@ -4,9 +4,11 @@
     <color name="colorPrimaryDark">#b03027</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="transparentLogin">#E6F44336</color>
+    <color name="transparentWhile">#E6F5E6E6</color>
     <color name="black">#000</color>
     <color name="backgroundHome">#d6d4d4</color>
     <color name="bgToolbar">#efeaea</color>
     <color name="bgButton">#e66e6c6c</color>
     <color name="bgButtonDetail">#80000000</color>
+    <color name="grey">#9e9a9a</color>
 </resources>

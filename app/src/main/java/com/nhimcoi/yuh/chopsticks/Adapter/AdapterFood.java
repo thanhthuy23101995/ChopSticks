@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nhimcoi.yuh.chopsticks.DatMonUtils;
 import com.nhimcoi.yuh.chopsticks.Model.FoodModel;
 import com.nhimcoi.yuh.chopsticks.R;
 
@@ -33,7 +34,7 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        FoodModel foodModel = foodModelList.get(position);
+        final FoodModel foodModel = foodModelList.get(position);
         holder.txtFood.setText(foodModel.getTenmon());
         holder.txtNumber.setTag(0);
         holder.imgAdd.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +44,8 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.ViewHolder> {
                 account++;
                 holder.txtNumber.setText(account+"");
                 holder.txtNumber.setTag(account);
+
+                DatMonUtils.addMonAn(foodModel);
             }
         });
         holder.imgRemove.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,8 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.ViewHolder> {
                 }
                 holder.txtNumber.setText(account+"");
                 holder.txtNumber.setTag(account);
+
+                DatMonUtils.removeMonAn(foodModel);
             }
         });
     }

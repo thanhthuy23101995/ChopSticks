@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAZinHY9NwELa9GHIQye05Q5Q5NMcujCV4"/>
+            android:value="AIzaSyAZinHY9NwELa9GHIQye05Q5Q5NMcujCV4" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
@@ -23,13 +23,16 @@
         <activity android:name=".View.SlashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".View.Login_Signup.LoginActivity" />
         <activity android:name=".View.Home.HomePageActivity" />
         <activity android:name=".View.Login_Signup.SignUpActivity" />
-        <activity android:name=".View.Home.DetailResActivity"></activity>
+        <activity android:name=".View.Home.DetailResActivity" />
+        <activity android:name=".View.Home.DetailCommentActivity" />
+        <activity android:name=".View.Home.GoogleMapsActivity"></activity>
     </application>
 
 </manifest>

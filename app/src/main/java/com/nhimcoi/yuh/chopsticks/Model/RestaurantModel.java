@@ -3,6 +3,7 @@ package com.nhimcoi.yuh.chopsticks.Model;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +22,8 @@ import java.util.List;
 public class RestaurantModel implements Parcelable{
     private boolean giaohang;
     private String giomocua, giodongcua, tenquanan, videogioithieu, id_quanan;
+
+     long giatoida,giatoithieu,luotthich;
     List<String> tienich;
     List<String> hinhanhquanans;
     List<BranchModel> branchModelList;
@@ -44,6 +47,8 @@ public class RestaurantModel implements Parcelable{
         tienich = in.createStringArrayList();
         hinhanhquanans = in.createStringArrayList();
         luotthich = in.readLong();
+        giatoida=in.readLong();
+        giatoithieu = in.readLong();
         branchModelList = new ArrayList<>();
         in.readTypedList(branchModelList,BranchModel.CREATOR);
         commentModelList = new ArrayList<>();
@@ -98,8 +103,6 @@ public class RestaurantModel implements Parcelable{
     public void setHinhanhquanans(List<String> hinhanhquanans) {
         this.hinhanhquanans = hinhanhquanans;
     }
-
-    long luotthich;
     DatabaseReference dbRootNode;
 
     public long getLuotthich() {
@@ -162,7 +165,21 @@ public class RestaurantModel implements Parcelable{
     public void setId_quanan(String id_quanan) {
         this.id_quanan = id_quanan;
     }
+    public long getGiatoida() {
+        return giatoida;
+    }
 
+    public void setGiatoida(long giatoida) {
+        this.giatoida = giatoida;
+    }
+
+    public long getGiatoithieu() {
+        return giatoithieu;
+    }
+
+    public void setGiatoithieu(long giatoithieu) {
+        this.giatoithieu = giatoithieu;
+    }
     public void getListRestaurant(final PlacesInterfaces placesInterfaces, final Location locationCurrent) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -172,6 +189,7 @@ public class RestaurantModel implements Parcelable{
                 for (DataSnapshot value : dataSnapshotRes.getChildren()) {
                     RestaurantModel restaurantModel = value.getValue(RestaurantModel.class);
                     restaurantModel.setId_quanan(value.getKey());
+                    Log.e("giatien",restaurantModel.getGiatoida()+"");
                     //get data res follow userID
                     DataSnapshot dataSnapshotImagesRes = dataSnapshot.child("hinhanhquanans").child(value.getKey());
 
@@ -245,6 +263,8 @@ public class RestaurantModel implements Parcelable{
         parcel.writeStringList(tienich);
         parcel.writeStringList(hinhanhquanans);
         parcel.writeLong(luotthich);
+        parcel.writeLong(giatoida);
+        parcel.writeLong(giatoithieu);
         parcel.writeTypedList(branchModelList);
         parcel.writeTypedList(commentModelList);
     }
