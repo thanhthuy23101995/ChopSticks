@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#b03027</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="transparentLogin">#E6F44336</color>
-    <color name="transparentWhile">#E6F5E6E6</color>
+    <color name="transparentWhile">#e6ffffff</color>
     <color name="black">#000</color>
     <color name="backgroundHome">#d6d4d4</color>
     <color name="bgToolbar">#efeaea</color>

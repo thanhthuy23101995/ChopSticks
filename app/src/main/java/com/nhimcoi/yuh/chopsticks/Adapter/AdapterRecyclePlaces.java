@@ -114,7 +114,6 @@ public class AdapterRecyclePlaces extends RecyclerView.Adapter<AdapterRecyclePla
             holder.txtMark1.setText(commentModel.getChamdiem() + "");
             StorageReference storageImagesUser = FirebaseStorage.getInstance().getReference().child("thanhvien")
                     .child(commentModel.getMemberModel().getHinhanh());
-            // cái commentModel getImages bị null.
             final long ONE_MEGABYTE = 1024 * 1024;
             storageImagesUser.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override

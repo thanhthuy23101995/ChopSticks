@@ -6,6 +6,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class FragmentPlaces extends Fragment {
         Location locationCurrent = new Location("");
         locationCurrent.setLatitude(Double.parseDouble(sharedPreferences.getString("Latitude","0")));
         locationCurrent.setLongitude(Double.parseDouble(sharedPreferences.getString("Longitude","0")));
+        Log.e("checklocation",locationCurrent.getLatitude()+"");
         dataPlaces = new DataPlaces(getContext());
         dataPlaces.getListRestaurantModel(getContext(),recyclerView, progressBar,locationCurrent);
     }
