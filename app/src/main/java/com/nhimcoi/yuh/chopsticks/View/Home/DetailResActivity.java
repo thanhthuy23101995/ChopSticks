@@ -68,6 +68,8 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
     LinearLayout linerFeatures;
     View view;
     BranchModel branchModeltmp;
+    LinearLayout linearLayout;
+    static int account =1;
     /**
      * Send notification
      */
@@ -78,7 +80,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
     private final View.OnClickListener mDatMonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            DatabaseReference datMonReference = FirebaseDatabase.getInstance().getReference("zDatMonAn").push();
+            DatabaseReference datMonReference = FirebaseDatabase.getInstance().getReference("datmonans").push();
             datMonReference.child("user").setValue(mUser);
             datMonReference.child("store").setValue(mStore);
             datMonReference.child("danhSachMonAn").setValue(DatMonUtils.getListMonAnDuocDat());
@@ -106,6 +108,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         nestedScrollView = (NestedScrollView) findViewById(R.id.scrollViewDetail);
         recyclerViewMenu = (RecyclerView) findViewById(R.id.recyc_menu);
         linerFeatures = (LinearLayout) findViewById(R.id.linerFeatures);
+        linearLayout = (LinearLayout)findViewById(R.id.linerMenu);
         view = (View) findViewById(R.id.GoogleMaps);
         mBtDatMon = findViewById(R.id.btnDatMon);
         view.setOnClickListener(this);
@@ -115,6 +118,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        account = getIntent().getIntExtra("tmm",0);
         dataMenu = new DataMenu();
         mapFragment.getMapAsync(this);
         DisplayResDetail();
@@ -191,7 +195,8 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         recyclerViewComment.setAdapter(adapterRecycleComment);
         adapterRecycleComment.notifyDataSetChanged();
         nestedScrollView.smoothScrollTo(0, 0);
-        dataMenu.getListMenu(this, restaurantModel.getId_quanan(), recyclerViewMenu);
+
+            dataMenu.getListMenu(this, restaurantModel.getId_quanan(), recyclerViewMenu);
     }
 
     @Override

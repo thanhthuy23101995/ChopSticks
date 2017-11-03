@@ -249,20 +249,22 @@
                 </LinearLayout>
                 <include layout="@layout/layout_features_res" />
                 <include layout="@layout/layout_menu" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Đặt món"
+                      android:textAllCaps="false"
+                    android:background="@drawable/custom_button_order"
+                    android:layout_gravity="bottom|end"
+                    android:id="@+id/btnDatMon"
+                    android:textColor="@color/colorAccent"/>
                 <include layout="@layout/layout_comment" />
-
-
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đặt món"
-        android:layout_gravity="bottom|end"
-        android:id="@+id/btnDatMon"/>
+
 
 </android.support.design.widget.CoordinatorLayout>

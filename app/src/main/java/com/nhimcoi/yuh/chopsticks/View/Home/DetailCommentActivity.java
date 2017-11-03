@@ -61,9 +61,9 @@ public class DetailCommentActivity extends AppCompatActivity {
                 public void onSuccess(byte[] bytes) {
                     Bitmap bitmapImg = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     bitmapList.add(bitmapImg);
-                    Log.e("size", bitmapList.size() + "");
-                    if (bitmapList.size() == commentModel.getImagesComentList().size()) {
-                        Log.e("size", bitmapList.size() + "");
+                    Log.d("aaa",commentModel.getImagesComentList().size()+"");
+                    Log.e("size123", bitmapList.size() + " ");
+                    if (bitmapList.size() <= commentModel.getImagesComentList().size()) {
                         AdapterImagesComment adapterImagesComment = new AdapterImagesComment(DetailCommentActivity.this, R.layout.custom_layout_imagescomment, bitmapList, commentModel,true);
                         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(DetailCommentActivity.this, 2);
                         recyclerViewImagesComment.setLayoutManager(layoutManager);

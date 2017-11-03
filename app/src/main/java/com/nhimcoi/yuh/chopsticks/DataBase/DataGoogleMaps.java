@@ -38,7 +38,6 @@ public class DataGoogleMaps {
             }
             Polyline polyline = googleMap.addPolyline(polylineOptions);
             polyline.setColor(R.color.colorPrimary);
-           // polyline.setColor(R.color.colorPrimary);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -46,8 +45,5 @@ public class DataGoogleMaps {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
     }
 }

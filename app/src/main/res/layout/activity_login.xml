@@ -143,15 +143,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/forgotpassword"
-                android:textColor="@color/colorAccent"
-                android:id="@+id/txtforgotpass"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/signup"
                 android:id="@+id/txtsignup"
-                android:paddingLeft="140dp"
+                android:paddingLeft="250dp"
                 android:textColor="@color/colorAccent"
                 />
         </LinearLayout>

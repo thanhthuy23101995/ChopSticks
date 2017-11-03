@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.nhimcoi.yuh.chopsticks.DataBase.DataPlaces;
@@ -21,7 +22,8 @@ public class FragmentPlaces extends Fragment {
     DataPlaces dataPlaces;
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
-
+    Button btnOderPlaces;
+    static  int tmp =1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

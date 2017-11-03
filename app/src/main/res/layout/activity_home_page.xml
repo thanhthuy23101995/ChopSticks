@@ -27,6 +27,7 @@
                 android:background="@drawable/custom_radio_1"
                 android:button="@android:color/transparent"
                 android:padding="10dp"
+                android:layout_gravity="center"
                 android:text="@string/place"
                 android:checked="true"
                 android:id="@+id/rd_places"
