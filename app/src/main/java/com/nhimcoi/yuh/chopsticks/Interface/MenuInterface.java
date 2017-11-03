@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface MenuInterface {
-    public void getListMenu_ID(List<MenuModel> menuModelList);
+     void getListMenu_ID(List<MenuModel> menuModelList);
 }

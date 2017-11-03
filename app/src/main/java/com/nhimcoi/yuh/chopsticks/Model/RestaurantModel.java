@@ -1,16 +1,10 @@
 package com.nhimcoi.yuh.chopsticks.Model;
 
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.nhimcoi.yuh.chopsticks.Interface.PlacesInterfaces;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +13,11 @@ import java.util.List;
  * Created by Nhím Còi on 9/16/2017.
  */
 
-public class RestaurantModel implements Parcelable{
+public class RestaurantModel implements Parcelable {
     private boolean giaohang;
     private String giomocua, giodongcua, tenquanan, videogioithieu, id_quanan;
 
-     long giatoida,giatoithieu,luotthich;
+    long giatoida, giatoithieu, luotthich;
     List<String> tienich;
     List<String> hinhanhquanans;
     List<BranchModel> branchModelList;
@@ -47,12 +41,12 @@ public class RestaurantModel implements Parcelable{
         tienich = in.createStringArrayList();
         hinhanhquanans = in.createStringArrayList();
         luotthich = in.readLong();
-        giatoida=in.readLong();
+        giatoida = in.readLong();
         giatoithieu = in.readLong();
         branchModelList = new ArrayList<>();
-        in.readTypedList(branchModelList,BranchModel.CREATOR);
+        in.readTypedList(branchModelList, BranchModel.CREATOR);
         commentModelList = new ArrayList<>();
-        in.readTypedList(commentModelList,CommentModel.CREATOR);
+        in.readTypedList(commentModelList, CommentModel.CREATOR);
     }
 
     public static final Creator<RestaurantModel> CREATOR = new Creator<RestaurantModel>() {
@@ -74,7 +68,6 @@ public class RestaurantModel implements Parcelable{
     public void setGiaohang(boolean giaohang) {
         this.giaohang = giaohang;
     }
-
 
 
     public List<BranchModel> getBranchModelList() {
@@ -103,6 +96,7 @@ public class RestaurantModel implements Parcelable{
     public void setHinhanhquanans(List<String> hinhanhquanans) {
         this.hinhanhquanans = hinhanhquanans;
     }
+
     DatabaseReference dbRootNode;
 
     public long getLuotthich() {
@@ -165,6 +159,7 @@ public class RestaurantModel implements Parcelable{
     public void setId_quanan(String id_quanan) {
         this.id_quanan = id_quanan;
     }
+
     public long getGiatoida() {
         return giatoida;
     }
@@ -180,71 +175,71 @@ public class RestaurantModel implements Parcelable{
     public void setGiatoithieu(long giatoithieu) {
         this.giatoithieu = giatoithieu;
     }
-    public void getListRestaurant(final PlacesInterfaces placesInterfaces, final Location locationCurrent) {
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot dataSnapshotRes = dataSnapshot.child("quanans");
-                //getdata restaurant
-                for (DataSnapshot value : dataSnapshotRes.getChildren()) {
-                    RestaurantModel restaurantModel = value.getValue(RestaurantModel.class);
-                    restaurantModel.setId_quanan(value.getKey());
-                    Log.e("giatien",restaurantModel.getGiatoida()+"");
-                    //get data res follow userID
-                    DataSnapshot dataSnapshotImagesRes = dataSnapshot.child("hinhanhquanans").child(value.getKey());
-
-                    List<String> imagesList = new ArrayList<>();
-                    //list đưa ra ngoài bởi vì 1 quán ăn có nhiều tấm hình để khi duyệt được 1 tấm m sẽ lưu vào trong list này
-                    for (DataSnapshot valueImagesRes : dataSnapshotImagesRes.getChildren()) {
-                        imagesList.add(valueImagesRes.getValue(String.class));
-                    }
-                    restaurantModel.setHinhanhquanans(imagesList);
-//                    //get list comment
-                    DataSnapshot snapshotComment = dataSnapshot.child("binhluans").child(restaurantModel.getId_quanan());
-                    //key động
-                    //vì 1 quán ăn có nhiều bình luận
-                    List<CommentModel> commentModels = new ArrayList<>();
-                    for (DataSnapshot valueBinhLuan : snapshotComment.getChildren()) {
-                        CommentModel commentModel = valueBinhLuan.getValue(CommentModel.class);
-                        commentModel.setId_comments(valueBinhLuan.getKey());
-                        //lấy được dl thành viên của model đó
-                        MemberModel memberModel = dataSnapshot.child("thanhviens").child(commentModel.getMauser())
-                                .getValue(MemberModel.class);
-                        commentModel.setMemberModel(memberModel);
-                        //1 bình luận có nhiều tấm hình
-                        List<String> imagesCommentList = new ArrayList<>();
-                        DataSnapshot dataNodeImagesComment = dataSnapshot.child("hinhanhbinhluans").child(commentModel.getId_comments());
-                        for (DataSnapshot valueImagesComment : dataNodeImagesComment.getChildren()) {
-                            imagesCommentList.add(valueImagesComment.getValue(String.class));
-                        }
-                        commentModel.setImagesComentList(imagesCommentList);
-                        commentModels.add(commentModel);
-                    }
-                    restaurantModel.setCommentModelList(commentModels);
-                    //get list branch res
-                    DataSnapshot dataSnapshotBranch = dataSnapshot.child("chinhanhquanans").child(restaurantModel.getId_quanan());
-                    List<BranchModel> listBranchModels = new ArrayList<>();
-                    for (DataSnapshot valueBranch : dataSnapshotBranch.getChildren()) {
-                        BranchModel branchModel = valueBranch.getValue(BranchModel.class);
-                        Location locationBranch = new Location("");
-                        locationBranch.setLongitude(branchModel.getLongitude());
-                        locationBranch.setLatitude(branchModel.getLatitude());
-                        double range = locationCurrent.distanceTo(locationBranch)/1000;
-                        branchModel.setRange(range);
-                        listBranchModels.add(branchModel);
-                    }
-                    restaurantModel.setBranchModelList(listBranchModels);
-                    placesInterfaces.getListRestaurantModel(restaurantModel);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        dbRootNode.addListenerForSingleValueEvent(valueEventListener);
-    }
+//    public void getListRestaurant(final PlacesInterfaces placesInterfaces, final Location locationCurrent) {
+//        ValueEventListener valueEventListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                DataSnapshot dataSnapshotRes = dataSnapshot.child("quanans");
+//                //getdata restaurant
+//                for (DataSnapshot value : dataSnapshotRes.getChildren()) {
+//                    RestaurantModel restaurantModel = value.getValue(RestaurantModel.class);
+//                    restaurantModel.setId_quanan(value.getKey());
+//                    Log.e("giatien",restaurantModel.getGiatoida()+"");
+//                    //get data res follow userID
+//                    DataSnapshot dataSnapshotImagesRes = dataSnapshot.child("hinhanhquanans").child(value.getKey());
+//
+//                    List<String> imagesList = new ArrayList<>();
+//                    //list đưa ra ngoài bởi vì 1 quán ăn có nhiều tấm hình để khi duyệt được 1 tấm m sẽ lưu vào trong list này
+//                    for (DataSnapshot valueImagesRes : dataSnapshotImagesRes.getChildren()) {
+//                        imagesList.add(valueImagesRes.getValue(String.class));
+//                    }
+//                    restaurantModel.setHinhanhquanans(imagesList);
+////                    //get list comment
+//                    DataSnapshot snapshotComment = dataSnapshot.child("binhluans").child(restaurantModel.getId_quanan());
+//                    //key động
+//                    //vì 1 quán ăn có nhiều bình luận
+//                    List<CommentModel> commentModels = new ArrayList<>();
+//                    for (DataSnapshot valueBinhLuan : snapshotComment.getChildren()) {
+//                        CommentModel commentModel = valueBinhLuan.getValue(CommentModel.class);
+//                        commentModel.setId_comments(valueBinhLuan.getKey());
+//                        //lấy được dl thành viên của model đó
+//                        MemberModel memberModel = dataSnapshot.child("thanhviens").child(commentModel.getMauser())
+//                                .getValue(MemberModel.class);
+//                        commentModel.setMemberModel(memberModel);
+//                        //1 bình luận có nhiều tấm hình
+//                        List<String> imagesCommentList = new ArrayList<>();
+//                        DataSnapshot dataNodeImagesComment = dataSnapshot.child("hinhanhbinhluans").child(commentModel.getId_comments());
+//                        for (DataSnapshot valueImagesComment : dataNodeImagesComment.getChildren()) {
+//                            imagesCommentList.add(valueImagesComment.getValue(String.class));
+//                        }
+//                        commentModel.setImagesComentList(imagesCommentList);
+//                        commentModels.add(commentModel);
+//                    }
+//                    restaurantModel.setCommentModelList(commentModels);
+//                    //get list branch res
+//                    DataSnapshot dataSnapshotBranch = dataSnapshot.child("chinhanhquanans").child(restaurantModel.getId_quanan());
+//                    List<BranchModel> listBranchModels = new ArrayList<>();
+//                    for (DataSnapshot valueBranch : dataSnapshotBranch.getChildren()) {
+//                        BranchModel branchModel = valueBranch.getValue(BranchModel.class);
+//                        Location locationBranch = new Location("");
+//                        locationBranch.setLongitude(branchModel.getLongitude());
+//                        locationBranch.setLatitude(branchModel.getLatitude());
+//                        double range = locationCurrent.distanceTo(locationBranch)/1000;
+//                        branchModel.setRange(range);
+//                        listBranchModels.add(branchModel);
+//                    }
+//                    restaurantModel.setBranchModelList(listBranchModels);
+//                    placesInterfaces.getListRestaurantModel(restaurantModel);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        };
+//        dbRootNode.addListenerForSingleValueEvent(valueEventListener);
+//    }
 
     @Override
     public int describeContents() {

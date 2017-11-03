@@ -66,6 +66,10 @@ public class HomePageActivity extends AppCompatActivity implements ViewPager.OnP
                 viewPagerHome.setCurrentItem(1);
                 break;
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

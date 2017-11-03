@@ -7,5 +7,5 @@ import com.nhimcoi.yuh.chopsticks.Model.RestaurantModel;
  */
 
 public interface PlacesInterfaces {
-     void getListRestaurantModel(RestaurantModel restaurantModel);
+     void getListRestaurantModel(RestaurantModel restsaurantModel);
 }
