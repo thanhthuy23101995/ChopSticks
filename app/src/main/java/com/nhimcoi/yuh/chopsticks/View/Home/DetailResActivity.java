@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory;
 import android.icu.text.DecimalFormat;
 import android.icu.text.NumberFormat;
 import android.icu.text.SimpleDateFormat;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,9 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,18 +34,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.maps.android.MarkerManager;
+import com.nhimcoi.yuh.chopsticks.Adapter.AdapterMenu;
 import com.nhimcoi.yuh.chopsticks.Adapter.AdapterRecycleComment;
 import com.nhimcoi.yuh.chopsticks.DatMonUtils;
 import com.nhimcoi.yuh.chopsticks.DataBase.DataMenu;
+import com.nhimcoi.yuh.chopsticks.Interface.MenuInterface;
 import com.nhimcoi.yuh.chopsticks.Model.BranchModel;
 import com.nhimcoi.yuh.chopsticks.Model.FeaturesModel;
+import com.nhimcoi.yuh.chopsticks.Model.MemberModel;
+import com.nhimcoi.yuh.chopsticks.Model.MenuModel;
 import com.nhimcoi.yuh.chopsticks.Model.RestaurantModel;
 import com.nhimcoi.yuh.chopsticks.R;
 
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DetailResActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
@@ -65,11 +65,13 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
     MapFragment mapFragment;
     DataMenu dataMenu;
     RecyclerView recyclerViewMenu;
+    LinearLayout linearLayout;
     LinearLayout linerFeatures;
     View view;
     BranchModel branchModeltmp;
-    LinearLayout linearLayout;
-    static int account =1;
+    MemberModel memberModel;
+    static int id_btn=0;
+
     /**
      * Send notification
      */
@@ -80,7 +82,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
     private final View.OnClickListener mDatMonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            DatabaseReference datMonReference = FirebaseDatabase.getInstance().getReference("datmonans").push();
+            DatabaseReference datMonReference = FirebaseDatabase.getInstance().getReference("zDatMonAn").push();
             datMonReference.child("user").setValue(mUser);
             datMonReference.child("store").setValue(mStore);
             datMonReference.child("danhSachMonAn").setValue(DatMonUtils.getListMonAnDuocDat());
@@ -92,6 +94,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_res);
         restaurantModel = getIntent().getParcelableExtra("res");
+        id_btn = getIntent().getIntExtra("id_btn",0);
         txtName = (TextView) findViewById(R.id.txtNameResDetail);
         txtAddress = (TextView) findViewById(R.id.txtAddressRes);
         txtPrices = (TextView) findViewById(R.id.txtPrice);
@@ -110,7 +113,7 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         linerFeatures = (LinearLayout) findViewById(R.id.linerFeatures);
         linearLayout = (LinearLayout)findViewById(R.id.linerMenu);
         view = (View) findViewById(R.id.GoogleMaps);
-        mBtDatMon = findViewById(R.id.btnDatMon);
+        mBtDatMon = findViewById(R.id.btnOrderMenu);
         view.setOnClickListener(this);
         mBtDatMon.setOnClickListener(mDatMonListener);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -118,7 +121,6 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        account = getIntent().getIntExtra("tmm",0);
         dataMenu = new DataMenu();
         mapFragment.getMapAsync(this);
         DisplayResDetail();
@@ -130,12 +132,11 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     private void DisplayResDetail() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String HoursCurrent = dateFormat.format(calendar.getTime());
-        Log.d("hi", HoursCurrent);
         String HoursOpen = restaurantModel.getGiomocua();
         String HoursClose = restaurantModel.getGiodongcua();
         try {
@@ -195,8 +196,20 @@ public class DetailResActivity extends AppCompatActivity implements OnMapReadyCa
         recyclerViewComment.setAdapter(adapterRecycleComment);
         adapterRecycleComment.notifyDataSetChanged();
         nestedScrollView.smoothScrollTo(0, 0);
-
-            dataMenu.getListMenu(this, restaurantModel.getId_quanan(), recyclerViewMenu);
+        if(id_btn==1)
+        {
+            linearLayout.setVisibility(View.VISIBLE);
+            mBtDatMon.setVisibility(View.VISIBLE);
+            dataMenu.getListMenu(restaurantModel.getId_quanan(), new MenuInterface() {
+                @Override
+                public void getListMenu_ID(List<MenuModel> menuModelList) {
+                    recyclerViewMenu.setLayoutManager(new LinearLayoutManager(DetailResActivity.this));
+                    AdapterMenu adapterMenu = new AdapterMenu(DetailResActivity.this,menuModelList);
+                    recyclerViewMenu.setAdapter(adapterMenu);
+                    adapterMenu.notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     @Override

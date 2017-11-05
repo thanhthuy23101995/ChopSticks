@@ -11,10 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.nhimcoi.yuh.chopsticks.Adapter.AdapterRecyclePlaces;
 import com.nhimcoi.yuh.chopsticks.DataBase.DataPlaces;
+import com.nhimcoi.yuh.chopsticks.Interface.PlacesInterfaces;
 import com.nhimcoi.yuh.chopsticks.Model.RestaurantModel;
 import com.nhimcoi.yuh.chopsticks.R;
 
@@ -27,6 +29,7 @@ public class FragmentPlaces extends Fragment {
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
     AdapterRecyclePlaces adapterRecyclePlaces;
+    Button btnOrder ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,36 +38,36 @@ public class FragmentPlaces extends Fragment {
         sharedPreferences = getContext().getSharedPreferences("coordinator", Context.MODE_PRIVATE);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_palces);
         progressBar = (ProgressBar) view.findViewById(R.id.progres_places);
+        btnOrder = (Button)view.findViewById(R.id.btnOderPlaces);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+//
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         Location locationCurrent = new Location("");
         locationCurrent.setLatitude(Double.parseDouble(sharedPreferences.getString("Latitude", "0")));
         locationCurrent.setLongitude(Double.parseDouble(sharedPreferences.getString("Longitude", "0")));
         Log.e("checklocation", locationCurrent.getLatitude() + "");
         dataPlaces = new DataPlaces(getContext());
-        dataPlaces.getListRestaurant(locationCurrent, new DataPlaces.ThhuyDoHoiCallBack() {
+        dataPlaces.getListRestaurant(locationCurrent, new PlacesInterfaces() {
             @Override
-            public void onGetDataCompleted(List<RestaurantModel> data) {
-                if(!data.isEmpty())
+            public void getListRestaurantModel(List<RestaurantModel> restsaurantModel) {
+                if(!restsaurantModel.isEmpty())
                 {
-                    adapterRecyclePlaces = new AdapterRecyclePlaces(getContext(),data, R.layout.layout_custom_palces);
+                    adapterRecyclePlaces = new AdapterRecyclePlaces(getContext(),restsaurantModel, R.layout.layout_custom_palces);
                     recyclerView.setAdapter(adapterRecyclePlaces);
                     adapterRecyclePlaces.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
                 }
             }
         });
+
         //=>> done - ok man? để e chjay thu ạ
         //List<RestaurantModel> restaurantModelList = dataPlaces.getListRestaurant(locationCurrent);
-
-
       //  dataPlaces.getListRestaurantModel(getContext(),recyclerView, progressBar, locationCurrent);
     }
 }

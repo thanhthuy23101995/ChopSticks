@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhimcoi.yuh.chopsticks.Adapter.AdapterRecyclePlaces;
+import com.nhimcoi.yuh.chopsticks.Interface.PlacesInterfaces;
 import com.nhimcoi.yuh.chopsticks.Model.BranchModel;
 import com.nhimcoi.yuh.chopsticks.Model.CommentModel;
 import com.nhimcoi.yuh.chopsticks.Model.MemberModel;
@@ -34,34 +35,11 @@ public class DataPlaces {
 //        vi du se lam the nay
         dbRootNode = FirebaseDatabase.getInstance().getReference();
     }
-
-
-    //    public void getListRestaurantModel(Context context, RecyclerView recyclerView, final ProgressBar progressBar, Location locationCurrent)
-//    {
-//        final List<RestaurantModel> restaurantModelList = new ArrayList<>();
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-//        recyclerView.setLayoutManager(layoutManager);
-//         adapterRecyclePlaces = new AdapterRecyclePlaces(context,restaurantModelList, R.layout.layout_custom_palces);
-//        recyclerView.setAdapter(adapterRecyclePlaces);
-//        PlacesInterfaces placesInterfaces = new PlacesInterfaces() {
-//            @Override
-//            public void getListRestaurantModel(RestaurantModel restaurantModel) {
-//                restaurantModelList.add(restaurantModel);
-//                adapterRecyclePlaces.notifyDataSetChanged();
-//
-//        progressBar.setVisibility(View.GONE);
-//            }
-//        };
-//        restaurantModel.getListRestaurant(placesInterfaces,locationCurrent);
-//    }
-    public interface ThhuyDoHoiCallBack {
-        public void onGetDataCompleted(List<RestaurantModel> data);
-    }
-
-    public void getListRestaurant(final Location locationCurrent, final ThhuyDoHoiCallBack thuydohoi) {
+    public void getListRestaurant(final Location locationCurrent, final PlacesInterfaces placesInterfaces) {
         //ham nay chay async => ko return data o day duoc => phai doi kieu voice va add caall back cho no
         //Lam nhu the nay (vi du)
         final List<RestaurantModel> restaurantModelList = new ArrayList<>();
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -117,16 +95,16 @@ public class DataPlaces {
                     restaurantModel.setBranchModelList(listBranchModels);
                     restaurantModelList.add(restaurantModel);
                     // placesInterfaces.getListRestaurantModel(restaurantModel);
-                    if (thuydohoi != null) {
-                        thuydohoi.onGetDataCompleted(restaurantModelList);
+                    if (placesInterfaces != null) {
+                        placesInterfaces.getListRestaurantModel(restaurantModelList);
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                if (thuydohoi != null) {
-                    thuydohoi.onGetDataCompleted(new ArrayList<RestaurantModel>());
+                if (placesInterfaces != null) {
+                    placesInterfaces.getListRestaurantModel(new ArrayList<RestaurantModel>());
                     // tra ve rong thay vi null - do i crash neu ko handle exception chan
                     Log.e("check", "null");
                 }

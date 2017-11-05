@@ -184,6 +184,7 @@ public class LoginActivity extends AppCompatActivity
         if (user != null) {
             Intent iTrangChu = new Intent(this, HomePageActivity.class);
             startActivity(iTrangChu);
+
         }
     }
 

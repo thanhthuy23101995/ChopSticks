@@ -253,10 +253,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Đặt món"
-                      android:textAllCaps="false"
+                    android:textAllCaps="false"
                     android:background="@drawable/custom_button_order"
                     android:layout_gravity="bottom|end"
-                    android:id="@+id/btnDatMon"
+                    android:id="@+id/btnOrderMenu"
+                    android:visibility="gone"
                     android:textColor="@color/colorAccent"/>
                 <include layout="@layout/layout_comment" />
             </LinearLayout>

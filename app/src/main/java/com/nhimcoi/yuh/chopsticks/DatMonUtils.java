@@ -24,7 +24,6 @@ public class DatMonUtils {
             mListMonDuocDat.remove(food);
         }
     }
-
     public static List<FoodModel> getListMonAnDuocDat() {
         return mListMonDuocDat;
     }

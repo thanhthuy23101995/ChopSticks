@@ -37,12 +37,13 @@ public class AdapterRecyclePlaces extends RecyclerView.Adapter<AdapterRecyclePla
     List<RestaurantModel> restaurantModelList;
     int resource;
     Context context;
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtNameRes, txtTitleComment1,
                 txtTitleComment2, txtComment1,
                 txtComment2, txtMark1, txtMark2,
                 txtSumComment, txtSimImagesComment,
-                txtSumRates,txtAddress,txtRanges;
+                txtSumRates, txtAddress, txtRanges;
         Button btnOrder;
         ImageView imgRes;
         CircleImageView imgComment1, imgComment2;
@@ -66,15 +67,16 @@ public class AdapterRecyclePlaces extends RecyclerView.Adapter<AdapterRecyclePla
             txtMark2 = (TextView) itemView.findViewById(R.id.txtMark2);
             txtSumComment = (TextView) itemView.findViewById(R.id.txtSumComment);
             txtSimImagesComment = (TextView) itemView.findViewById(R.id.txtSumImagesComment);
-            txtSumRates = (TextView)itemView.findViewById(R.id.txtRates);
-            txtAddress = (TextView)itemView.findViewById(R.id.txtAddress);
-            txtRanges = (TextView)itemView.findViewById(R.id.txtRange);
-            cardView = (CardView)itemView.findViewById(R.id.cardViewPlaces);
+            txtSumRates = (TextView) itemView.findViewById(R.id.txtRates);
+            txtAddress = (TextView) itemView.findViewById(R.id.txtAddress);
+            txtRanges = (TextView) itemView.findViewById(R.id.txtRange);
+            cardView = (CardView) itemView.findViewById(R.id.cardViewPlaces);
+
         }
     }
 
     //hiển thị list danh sách quán ăn nên truyền vào là giá trị lisr quán ăn
-    public AdapterRecyclePlaces(Context context,List<RestaurantModel> restaurantModelList, int resource) {
+    public AdapterRecyclePlaces(Context context, List<RestaurantModel> restaurantModelList, int resource) {
         this.restaurantModelList = restaurantModelList;
         this.resource = resource;
         this.context = context;
@@ -93,6 +95,15 @@ public class AdapterRecyclePlaces extends RecyclerView.Adapter<AdapterRecyclePla
         holder.txtNameRes.setText(restaurantModel.getTenquanan());
         if (restaurantModel.isGiaohang()) {
             holder.btnOrder.setVisibility(View.VISIBLE);
+            holder.btnOrder.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, DetailResActivity.class);
+                    intent.putExtra("res",restaurantModel);
+                    intent.putExtra("id_btn",1);
+                    context.startActivity(intent);
+                }
+            });
         }
         if (restaurantModel.getHinhanhquanans().size() > 0) {
             StorageReference storageImages = FirebaseStorage.getInstance().getReference().child("hinhanh")
@@ -155,8 +166,8 @@ public class AdapterRecyclePlaces extends RecyclerView.Adapter<AdapterRecyclePla
             } else {
                 holder.txtSimImagesComment.setText("0");
             }
-            double sumMedium= sumRates/restaurantModel.getCommentModelList().size();
-            holder.txtSumRates.setText(String.format("%.1f",sumMedium));
+            double sumMedium = sumRates / restaurantModel.getCommentModelList().size();
+            holder.txtSumRates.setText(String.format("%.1f", sumMedium));
         } else {
             holder.liner_container1.setVisibility(View.GONE);
             holder.liner_container2.setVisibility(View.GONE);
@@ -164,25 +175,22 @@ public class AdapterRecyclePlaces extends RecyclerView.Adapter<AdapterRecyclePla
             holder.txtSimImagesComment.setText("0");
         }
         //getListBranch and view address km
-        if(restaurantModel.getBranchModelList().size()>0)
-        {
+        if (restaurantModel.getBranchModelList().size() > 0) {
             BranchModel branchModeltmp = restaurantModel.getBranchModelList().get(0);
-            for(BranchModel valuebranchModel : restaurantModel.getBranchModelList())
-            {
-                if(branchModeltmp.getRange()> valuebranchModel.getRange())
-                {
+            for (BranchModel valuebranchModel : restaurantModel.getBranchModelList()) {
+                if (branchModeltmp.getRange() > valuebranchModel.getRange()) {
                     branchModeltmp = valuebranchModel;
                 }
             }
             holder.txtAddress.setText(branchModeltmp.getDiachi());
-            holder.txtRanges.setText(String.format("%.1f",branchModeltmp.getRange())+" km ");
+            holder.txtRanges.setText(String.format("%.1f", branchModeltmp.getRange()) + " km ");
         }
         //set onclick
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent iDetailRes = new Intent(context, DetailResActivity.class);
-                iDetailRes.putExtra("res",restaurantModel);
+                iDetailRes.putExtra("res", restaurantModel);
                 context.startActivity(iDetailRes);
             }
         });
